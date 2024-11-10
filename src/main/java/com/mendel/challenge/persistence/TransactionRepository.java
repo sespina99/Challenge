@@ -63,7 +63,7 @@ public class TransactionRepository {
     public List<Long> getTransactionsByType(String type) {
         return Optional.ofNullable(typeIndex.get(type))
                 .map(list -> list.stream().toList())
-                .orElse(null);
+                .orElse(new ArrayList<>());
     }
 
     public Double getTotalSumForTransaction(Long transactionId) {

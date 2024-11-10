@@ -30,9 +30,7 @@ public class GetSumTest {
         String jsonRequest = objectMapper.writeValueAsString(transactionRequest);
 
         mockMvc.perform(get("/transactions/sum/0"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.sum").value(0));
+                .andExpect(status().isNotFound());
 
 
         mockMvc.perform(post("/transactions")

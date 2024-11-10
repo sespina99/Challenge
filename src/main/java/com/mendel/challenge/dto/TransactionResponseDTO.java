@@ -1,5 +1,7 @@
 package com.mendel.challenge.dto;
 
+import com.mendel.challenge.model.Transaction;
+
 public class TransactionResponseDTO {
     private Long id;
     private double amount;
@@ -16,6 +18,10 @@ public class TransactionResponseDTO {
         this.amount = amount;
         this.type = type;
         this.parentId = parentId;
+    }
+
+    public static TransactionResponseDTO generateDTO(Transaction transaction) {
+        return new TransactionResponseDTO(transaction.getId(), transaction.getAmount(), transaction.getType(), transaction.getParentId());
     }
 
 

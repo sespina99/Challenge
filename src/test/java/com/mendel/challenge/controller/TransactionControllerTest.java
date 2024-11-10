@@ -125,7 +125,7 @@ public class TransactionControllerTest {
                 .andExpect(jsonPath("$[3]").exists());
 
         mockMvc.perform(get("/transactions/types/dining"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNoContent());
     }
 
 

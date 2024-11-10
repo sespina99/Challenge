@@ -1,5 +1,7 @@
 package com.mendel.challenge.dto;
 
+import com.mendel.challenge.model.Transaction;
+
 public class TransactionRequestDTO {
 
     private double amount;
