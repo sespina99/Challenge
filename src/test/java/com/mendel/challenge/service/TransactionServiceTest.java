@@ -54,6 +54,13 @@ public class TransactionServiceTest {
         List<Long> carsTransactions = transactionService.getTransactionsByType("cars");
         assertEquals(1, carsTransactions.size());
         assertTrue(carsTransactions.contains(0L));
+        transactionService.createTransaction(10000, "shopping", null);
+        transactionService.createTransaction(10000, "shopping", null);
+        transactionService.createTransaction(10000, "shopping", null);
+        List<Long> shoppingTransactions = transactionService.getTransactionsByType("shopping");
+        assertEquals(4, shoppingTransactions.size());
+        assertTrue(shoppingTransactions.contains(3L));
+
     }
 
     @Test

@@ -31,7 +31,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<Long> getTransactionsByType(String type) {
-        return List.of();
+        return transactionRepository.getTransactionsByType(type);
     }
 
     @Override
