@@ -13,11 +13,11 @@ public class Transaction {
         this.parentId = parentId;
     }
 
-    public long getTransactionId() {
+    public long getId() {
         return id;
     }
 
-    public void setTransactionId(Long transactionId) {
+    public void setId(Long transactionId) {
         this.id = transactionId;
     }
 

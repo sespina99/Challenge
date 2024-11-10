@@ -2,6 +2,7 @@ package com.mendel.challenge.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import com.mendel.challenge.model.Transaction;
+import com.mendel.challenge.persistence.TransactionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +16,8 @@ public class TransactionServiceTest {
 
     @BeforeEach
     public void setUp() {
-        transactionService = new TransactionServiceImpl();
+        TransactionRepository transactionRepository = new TransactionRepository();
+        transactionService = new TransactionServiceImpl(transactionRepository);
     }
 
     @Test
@@ -25,22 +27,23 @@ public class TransactionServiceTest {
         assertEquals(5000, transaction.getAmount());
         assertEquals("cars", transaction.getType());
         assertNull(transaction.getParentId());
-
-        Transaction transaction1 = transactionService.createTransaction(5000, "cars", 0L);
-        assertNotNull(transaction);
-        assertEquals(5000, transaction.getAmount());
-        assertEquals("cars", transaction.getType());
-        assertEquals(0L, transaction.getParentId());
+        Transaction transaction1 = transactionService.createTransaction(3000, "bus", 0L);
+        assertNotNull(transaction1);
+        assertEquals(3000, transaction1.getAmount());
+        assertEquals("bus", transaction1.getType());
+        assertEquals(0, transaction1.getParentId());
     }
 
     @Test
     public void updateTransactions() {
         Transaction transaction = transactionService.createTransaction(5000, "cars", null); //0L
-        Transaction transaction1 = transactionService.createTransaction(5000, "cars", null); //1L
+        Transaction transaction1 = transactionService.createTransaction(3000, "bus", null); //1L
         assertNotNull(transaction);
         assertNull(transaction.getParentId());
-        transactionService.updateTransaction(0L,5000, "cars", 1L);
+        transactionService.updateTransaction(0L,3000, "bike", 1L);
         assertEquals(1L, transaction.getParentId());
+        assertEquals(3000, transaction.getAmount());
+        assertEquals("bike", transaction.getType());
     }
 
     @Test
