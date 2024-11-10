@@ -19,6 +19,7 @@ public class TransactionRepository {
         if (parentId != null && !transactions.containsKey(parentId)) {
             return null;
         }
+
         Transaction toReturn =  new Transaction(nextId, amount, type, parentId);
         nextId++;
 

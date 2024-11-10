@@ -25,7 +25,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Transaction updateTransaction(Long id, double amount, String type, Long parentId) {
-        return transactionRepository.updateTransaction(id, amount, type, parentId);
+        return id.equals(parentId) ? null :  transactionRepository.updateTransaction(id, amount, type, parentId);
     }
 
     @Override

@@ -40,6 +40,13 @@ public class TransactionServiceTest {
     }
 
     @Test
+    public void createTransactionSameParent() {
+        //test
+        Transaction transaction = transactionService.createTransaction(5000, "cars", 0L);
+        assertNull(transaction);
+    }
+
+    @Test
     public void updateTransactions() {
         //setup
         Transaction transaction = transactionService.createTransaction(5000, "cars", null); //0L
@@ -53,6 +60,23 @@ public class TransactionServiceTest {
         assertEquals(3000, transaction.getAmount());
         assertEquals("bike", transaction.getType());
     }
+
+
+    @Test
+    public void updateTransactionSameParent() {
+        //setup
+        Transaction transaction = transactionService.createTransaction(5000, "cars", null); //0L
+        transactionService.createTransaction(3000, "bus", null); //1L
+
+        //test
+        transaction = transactionService.updateTransaction(0L,3000, "bike", 0L);
+
+        //assert
+        assertNull(transaction);
+    }
+
+
+
 
     @Test
     public void testGetTransactionsByTypeOnCreate() {
