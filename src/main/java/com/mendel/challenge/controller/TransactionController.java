@@ -42,9 +42,19 @@ public class TransactionController {
     }
 
     @PutMapping("/{transaction_id}")
-    public ResponseEntity<String> updateTransaction(@PathVariable long transaction_id, @RequestBody Transaction transaction) {
-        transactionService.updateTransaction(transaction_id,transaction.getAmount(), transaction.getType(), transaction.getParentId());
-        return ResponseEntity.ok("{\"status\": \"ok\"}");
+    public ResponseEntity<?> updateTransaction(@PathVariable long transaction_id, @RequestBody TransactionRequestDTO transaction) {
+        Transaction updatedTransaction = transactionService.updateTransaction(transaction_id,transaction.getAmount(), transaction.getType(), transaction.getParentId());
+        if (updatedTransaction != null) {
+            TransactionResponseDTO responseDTO = new TransactionResponseDTO(
+                    updatedTransaction.getId(),
+                    updatedTransaction.getAmount(),
+                    updatedTransaction.getType(),
+                    updatedTransaction.getParentId()
+            );
+            return ResponseEntity.ok(responseDTO);
+        }
+        return ResponseEntity.badRequest()
+                .body("bad request");
     }
 
     @GetMapping("/types/{type}")
