@@ -13,6 +13,6 @@ public interface TransactionService {
 
     List<Long> getTransactionsByType(String type);
 
-    double getTotalSumForTransaction(Long transactionId);
+    Double getTotalSumForTransaction(Long transactionId);
 
 }

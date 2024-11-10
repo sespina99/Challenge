@@ -67,6 +67,9 @@ public class TransactionController {
     @GetMapping("/sum/{transaction_id}")
     public ResponseEntity<Map<String, Double>> getTransactionSum(@PathVariable long transaction_id) {
         Double sum = transactionService.getTotalSumForTransaction(transaction_id);
+        if (sum == null) {
+            sum = 0.0;
+        }
         return ResponseEntity.ok(Map.of("sum", sum));
     }
 

@@ -127,4 +127,6 @@ public class TransactionControllerTest {
         mockMvc.perform(get("/transactions/types/dining"))
                 .andExpect(status().isBadRequest());
     }
+
+
 }

@@ -66,7 +66,7 @@ public class TransactionRepository {
                 .orElse(null);
     }
 
-    public double getTotalSumForTransaction(Long transactionId) {
+    public Double getTotalSumForTransaction(Long transactionId) {
         return transactionSums.get(transactionId);
     }
 
