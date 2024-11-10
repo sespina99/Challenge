@@ -1,7 +1,7 @@
 package com.mendel.challenge.interfaces.services;
 
 import com.mendel.challenge.model.Transaction;
-import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 
