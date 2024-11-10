@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class TransactionServiceImpl implements TransactionService {
     @Override
-    public Transaction modifyOrCreateTransaction(Long id, double amount, String type, Long parentId) {
+    public Transaction updateTransaction(Long id, double amount, String type, Long parentId) {
         return null;
     }
 

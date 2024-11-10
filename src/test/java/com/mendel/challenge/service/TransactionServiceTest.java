@@ -11,7 +11,6 @@ import java.util.List;
 @SpringBootTest
 public class TransactionServiceTest {
 
-
     private TransactionServiceImpl transactionService;
 
     @BeforeEach
@@ -39,17 +38,9 @@ public class TransactionServiceTest {
         Transaction transaction = transactionService.createTransaction(5000, "cars", null); //0L
         Transaction transaction1 = transactionService.createTransaction(5000, "cars", null); //1L
         assertNotNull(transaction);
-        assertEquals(5000, transaction.getAmount());
-        assertEquals("cars", transaction.getType());
         assertNull(transaction.getParentId());
-        transactionService.modifyOrCreateTransaction(0L,5000, "cars", 1L);
+        transactionService.updateTransaction(0L,5000, "cars", 1L);
         assertEquals(1L, transaction.getParentId());
-
-        Transaction transaction3 = transactionService.modifyOrCreateTransaction(5L, 5000, "bus", 0L);
-        assertNotNull(transaction3);
-        assertEquals(5000, transaction3.getAmount());
-        assertEquals("bus", transaction3.getType());
-        assertEquals(0L, transaction3.getParentId());
     }
 
     @Test

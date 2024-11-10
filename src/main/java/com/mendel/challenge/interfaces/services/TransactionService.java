@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TransactionService {
 
-    Transaction modifyOrCreateTransaction(Long id ,double amount, String type, Long parentId);
+    Transaction updateTransaction(Long id ,double amount, String type, Long parentId);
 
     Transaction createTransaction(double amount, String type, Long parentId);
 
