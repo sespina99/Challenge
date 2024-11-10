@@ -6,7 +6,7 @@ public class TransactionRequestDTO {
 
     private String type;
 
-    private Long parentId; // Opcional, puede ser null
+    private Long parentId;
 
 
     public TransactionRequestDTO() {
@@ -24,8 +24,6 @@ public class TransactionRequestDTO {
     }
 
 
-
-    // Getters y setters
     public double getAmount() {
         return amount;
     }

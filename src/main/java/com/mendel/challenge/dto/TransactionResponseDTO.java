@@ -6,11 +6,11 @@ public class TransactionResponseDTO {
     private String type;
     private Long parentId;
 
-    // Constructor vacío (requerido por Jackson)
+
     public TransactionResponseDTO() {
     }
 
-    // Constructor con los parámetros que quieres inicializar
+
     public TransactionResponseDTO(Long id, double amount, String type, Long parentId) {
         this.id = id;
         this.amount = amount;
@@ -18,7 +18,7 @@ public class TransactionResponseDTO {
         this.parentId = parentId;
     }
 
-    // Getters y setters
+
     public Long getId() {
         return id;
     }
