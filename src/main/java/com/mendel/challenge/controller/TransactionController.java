@@ -6,6 +6,7 @@ import com.mendel.challenge.dto.TransactionResponseDTO;
 import com.mendel.challenge.interfaces.services.TransactionService;
 import com.mendel.challenge.model.Transaction;
 import com.mendel.challenge.service.TransactionServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,9 @@ import java.util.Map;
 @RequestMapping("/transactions")
 public class TransactionController {
 
-    private final TransactionServiceImpl transactionService;
+    private final TransactionService transactionService;
 
-    public TransactionController(TransactionServiceImpl transactionService) {
+    public TransactionController(TransactionService transactionService) {
         this.transactionService = transactionService;
     }
 
@@ -49,7 +50,4 @@ public class TransactionController {
         Double sum = transactionService.getTotalSumForTransaction(transaction_id);
         return sum == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(Map.of("sum", sum));
     }
-
-
-
 }
