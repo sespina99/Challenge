@@ -11,6 +11,8 @@ public class TransactionRepository {
 
     private final Map<Long, Transaction> transactions = new HashMap<>();
     private final Map<String, Set<Long>> typeIndex =  new HashMap<>();
+    private final Map<Long, Double> transactionSums = new HashMap<>();
+
     private long nextId = 0;
 
     public Transaction createTransaction(double amount, String type, Long parentId) {
@@ -19,8 +21,12 @@ public class TransactionRepository {
         }
         Transaction toReturn =  new Transaction(nextId, amount, type, parentId);
         nextId++;
-        typeIndex.computeIfAbsent(type, k -> new HashSet<>()).add(toReturn.getId());
+
         transactions.put(toReturn.getId(), toReturn);
+        //add to transaction sums
+        addTransactionSums(toReturn.getId(), toReturn.getAmount());
+
+        typeIndex.computeIfAbsent(type, k -> new HashSet<>()).add(toReturn.getId());
         return toReturn;
     }
 
@@ -31,16 +37,25 @@ public class TransactionRepository {
         if (parentId != null && !transactions.containsKey(parentId)) {
             return null;
         }
-        //remove from old type set
-        typeIndex.get(transactions.get(id).getType()).remove(id);
+
+        if (!type.equals(transactions.get(id).getType())) {
+            //remove from old type set
+            typeIndex.get(transactions.get(id).getType()).remove(id);
+            //add to new type set
+            typeIndex.computeIfAbsent(type, k -> new HashSet<>()).add(id);
+        }
+
+        //remove the old amount map before changing parentId
+        removeTransactionSums(id, transactions.get(id).getAmount());
+
 
         //update the transaction
         transactions.get(id).setAmount(amount);
         transactions.get(id).setType(type);
         transactions.get(id).setParentId(parentId);
 
-        //add to new type set
-        typeIndex.computeIfAbsent(type, k -> new HashSet<>()).add(id);
+        //add to the new sums map after changing parentId
+        addTransactionSums(id, amount);
 
         return transactions.get(id);
     }
@@ -49,4 +64,19 @@ public class TransactionRepository {
         return typeIndex.get(type).stream().toList();
     }
 
+    public double getTotalSumForTransaction(Long transactionId) {
+        return transactionSums.get(transactionId);
+    }
+
+    private void addTransactionSums(Long transactionId, double amount) {
+        transactionSums.compute(transactionId, (id, sum) -> (sum == null) ? amount : sum + amount);
+        Optional<Long> parentId = Optional.ofNullable(transactions.get(transactionId).getParentId());
+        parentId.ifPresent(aLong -> addTransactionSums(aLong, amount));
+    }
+
+    private void removeTransactionSums(Long transactionId, double amount) {
+        transactionSums.compute(transactionId, (id, sum) -> sum - amount);
+        Optional<Long> parentId = Optional.ofNullable(transactions.get(transactionId).getParentId());
+        parentId.ifPresent(aLong -> removeTransactionSums(aLong, amount));
+    }
 }

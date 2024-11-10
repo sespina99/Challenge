@@ -37,7 +37,7 @@ public class TransactionServiceTest {
     @Test
     public void updateTransactions() {
         Transaction transaction = transactionService.createTransaction(5000, "cars", null); //0L
-        Transaction transaction1 = transactionService.createTransaction(3000, "bus", null); //1L
+        transactionService.createTransaction(3000, "bus", null); //1L
         assertNotNull(transaction);
         assertNull(transaction.getParentId());
         transactionService.updateTransaction(0L,3000, "bike", 1L);
@@ -65,14 +65,22 @@ public class TransactionServiceTest {
 
     @Test
     public void testGetTotalSumForTransaction() {
-        Transaction t1 = transactionService.createTransaction(5000, "shopping", null); // ID 1
-        Transaction t2 = transactionService.createTransaction(10000, "shopping", 0L);
-        Transaction t3 = transactionService.createTransaction(15000, "shopping", 1L);
+        transactionService.createTransaction(5000, "shopping", null); // ID0
+        transactionService.createTransaction(10000, "shopping", 0L);
+        transactionService.createTransaction(15000, "shopping", 1L);
 
         double sum = transactionService.getTotalSumForTransaction(0L);
         assertEquals(30000, sum);
 
         double sum1 = transactionService.getTotalSumForTransaction(1L);
         assertEquals(25000, sum1); // 5000 (t1) + 10000 (t2) + 15000 (t3)
+
+        transactionService.updateTransaction(2L,15000, "shopping", 0L);
+        double sum2 = transactionService.getTotalSumForTransaction(0L);
+        assertEquals(30000, sum2);
+
+        double sum3 = transactionService.getTotalSumForTransaction(1L);
+        assertEquals(10000, sum3); // 5000 (t1) + 10000 (t2) + 15000 (t3)
+
     }
 }

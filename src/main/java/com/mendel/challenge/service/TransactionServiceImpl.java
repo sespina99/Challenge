@@ -36,6 +36,6 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public double getTotalSumForTransaction(Long transactionId) {
-        return 0;
+        return transactionRepository.getTotalSumForTransaction(transactionId);
     }
 }
