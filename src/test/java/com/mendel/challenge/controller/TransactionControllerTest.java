@@ -10,8 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -53,8 +52,7 @@ public class TransactionControllerTest {
         mockMvc.perform(post("/transactions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string("bad request"));
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -80,8 +78,7 @@ public class TransactionControllerTest {
         mockMvc.perform(put("/transactions/4")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(jsonPutRequest))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string("bad request"));
+                .andExpect(status().isBadRequest());
 
         //parent id doesnt exist
 
@@ -91,7 +88,40 @@ public class TransactionControllerTest {
         mockMvc.perform(put("/transactions/0")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonPutRequestNoParent))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string("bad request"));
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testGetTransactionsByType() throws Exception {
+        TransactionRequestDTO transactionRequest = new TransactionRequestDTO(5000, "flying");
+
+        String jsonRequest = objectMapper.writeValueAsString(transactionRequest);
+        mockMvc.perform(post("/transactions")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonRequest));
+        mockMvc.perform(post("/transactions")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonRequest));
+        mockMvc.perform(post("/transactions")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonRequest));
+
+        mockMvc.perform(get("/transactions/types/flying"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0]").exists())
+                .andExpect(jsonPath("$[1]").exists())
+                .andExpect(jsonPath("$[2]").exists());
+
+        mockMvc.perform(post("/transactions")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonRequest));
+
+        mockMvc.perform(get("/transactions/types/flying"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[3]").exists());
     }
 }

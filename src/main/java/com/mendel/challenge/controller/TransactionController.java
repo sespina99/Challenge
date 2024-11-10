@@ -26,7 +26,7 @@ public class TransactionController {
 
     //POST /transactions -> creo nueva transaction
     @PostMapping
-    public ResponseEntity<?> createTransaction(@RequestBody TransactionRequestDTO transaction) {
+    public ResponseEntity<TransactionResponseDTO> createTransaction(@RequestBody TransactionRequestDTO transaction) {
         Transaction createdTransaction = transactionService.createTransaction(transaction.getAmount(),transaction.getType(), transaction.getParentId());
         if (createdTransaction != null) {
             TransactionResponseDTO responseDTO = new TransactionResponseDTO(
@@ -37,12 +37,11 @@ public class TransactionController {
             );
             return ResponseEntity.ok(responseDTO);
         }
-        return ResponseEntity.badRequest()
-                .body("bad request");
+        return ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/{transaction_id}")
-    public ResponseEntity<?> updateTransaction(@PathVariable long transaction_id, @RequestBody TransactionRequestDTO transaction) {
+    public ResponseEntity<TransactionResponseDTO> updateTransaction(@PathVariable long transaction_id, @RequestBody TransactionRequestDTO transaction) {
         Transaction updatedTransaction = transactionService.updateTransaction(transaction_id,transaction.getAmount(), transaction.getType(), transaction.getParentId());
         if (updatedTransaction != null) {
             TransactionResponseDTO responseDTO = new TransactionResponseDTO(
@@ -53,19 +52,21 @@ public class TransactionController {
             );
             return ResponseEntity.ok(responseDTO);
         }
-        return ResponseEntity.badRequest()
-                .body("bad request");
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/types/{type}")
     public ResponseEntity<List<Long>> getTransactionsByType(@PathVariable String type) {
         List<Long> transactionIds = transactionService.getTransactionsByType(type);
-        return ResponseEntity.ok(transactionIds);
+        if (transactionIds != null) {
+            return ResponseEntity.ok(transactionIds);
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/sum/{transaction_id}")
     public ResponseEntity<Map<String, Double>> getTransactionSum(@PathVariable long transaction_id) {
-        double sum = transactionService.getTotalSumForTransaction(transaction_id);
+        Double sum = transactionService.getTotalSumForTransaction(transaction_id);
         return ResponseEntity.ok(Map.of("sum", sum));
     }
 
