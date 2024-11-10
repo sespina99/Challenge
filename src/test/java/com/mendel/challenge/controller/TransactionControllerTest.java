@@ -123,5 +123,8 @@ public class TransactionControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[3]").exists());
+
+        mockMvc.perform(get("/transactions/types/dining"))
+                .andExpect(status().isBadRequest());
     }
 }
