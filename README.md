@@ -13,7 +13,7 @@ La aplicación se encuentra Dockerizada
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/sespina99/Challenge.git
+git clone git@github.com:sespina99/Challenge.git
 cd Challenge
 ```
 
