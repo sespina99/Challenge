@@ -49,12 +49,13 @@ La aplicación ahora corre en http://localhost:8080
      }
      ```
    - **Response**:
-       - 200 OK: Transacción creada exitosamente. Devuelve un objeto TransactionResponseDTO con los detalles de la transacción creada.
+       - 201 Created: Transacción creada exitosamente. Devuelve un objeto TransactionResponseDTO con los detalles de la 
+         transacción creada.
        - 400 Bad Request: La creación de la transacción falló.
 
    - **Descripción**: Crea una nueva transaccion. El `parentId` puede ser null o un long con el id de otra 
      transacción. Si se da un parentId que no existe en la memoria, devuelve 400 Bad Request. Si se agrega la 
-     transacción devuelve 200 ok.
+     transacción devuelve 201 created.
 
 
 2. **Modificar una transacción**
@@ -115,7 +116,7 @@ curl --location --request POST 'localhost:8080/transactions' \
 --data-raw '{"amount": 5000, "type": "planes"}
 '
 ```
-- Response Status 200 OK
+- Response Status 201 Created
 - Response Body
     ````json
     {
@@ -151,7 +152,7 @@ curl --location --request POST 'localhost:8080/transactions' \
 --data-raw '{"amount": 6000, "type": "cars", "parentId": 0}
 '
 ```
-- Response Status 200 OK
+- Response Status 201 Created
 - Response Body
     ````json
     {
@@ -188,15 +189,20 @@ curl --location --request GET 'localhost:8080/transactions/sum/0' \
 ````
 
 ## Consideraciones Tomadas
-Se decidió por cambiar algunas cosas con respecto al enunciado del challenge. Principalmente el challenge 
-especificaba que con el PUT se generaban nuevas transacciones pero debido a que esto no sigue el paradigma RESTful 
+Se decidió por cambiar algunas cosas con respecto al enunciado del challenge. 
+- Principalmente el challenge especificaba que con el PUT se generaban nuevas transacciones pero debido a que esto no sigue el paradigma RESTful 
 en su totalidad se optó por generar las transacciones con el POST y que el PUT sea solo para modificar transacciones 
 previamente creadas.
-Tabién en los ejemplos de uno del challenge se veía como se envíaba el {"status":"ok"} en el body de la respuesta 
-del PUT. Esto se cambió para que el status llegue con el código 200 de HTML OK y que el body del response se 
-utilize para mostrar a la Transferencia modificada con el put. Lo mismo se hace con el POST.
 
-Cabe aclarar que se implemento la aplicación respetando los principios SOLID y con TDD. Los tests se pueden correr 
+- Además en los ejemplos de uno del challenge se veía como se envíaba el {"status":"ok"} en el body de la respuesta 
+del PUT. Esto se cambió para que el status llegue con el código 200 de HTML OK y que el body del response se 
+utilize para mostrar a la Transferencia modificada con el put. Lo mismo se hace con el POST, pero este devuelve 
+Status 201 Created.
+
+- Un detalle adicional es que no se incluye la URI al elemento creado en la Response del post, ya que no hay método 
+  GEt en /transactions/transactionId.
+
+Cabe aclarar que se implementó la aplicación respetando los principios SOLID y con TDD. Los tests se pueden correr 
 al estar en la carpeta de challenge ejecutando:
 
 ```bash

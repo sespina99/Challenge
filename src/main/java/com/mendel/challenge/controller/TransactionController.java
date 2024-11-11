@@ -29,7 +29,7 @@ public class TransactionController {
     @PostMapping
     public ResponseEntity<TransactionResponseDTO> createTransaction(@RequestBody TransactionRequestDTO transaction) {
         Transaction createdTransaction = transactionService.createTransaction(transaction.getAmount(),transaction.getType(), transaction.getParentId());
-        return createdTransaction == null ? ResponseEntity.badRequest().build() : ResponseEntity.ok(TransactionResponseDTO.generateDTO(createdTransaction));
+        return createdTransaction == null ? ResponseEntity.badRequest().build() : ResponseEntity.status(HttpStatus.CREATED).body(TransactionResponseDTO.generateDTO(createdTransaction));
 
     }
 
