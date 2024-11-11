@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -23,6 +24,7 @@ public class TransactionControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @DirtiesContext
     @Test
     void testCreateTransactionSuccess() throws Exception {
 
@@ -42,6 +44,7 @@ public class TransactionControllerTest {
 
 
     }
+    @DirtiesContext
     @Test
     void testCreateTransactionError() throws Exception {
 
@@ -55,6 +58,7 @@ public class TransactionControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @DirtiesContext
     @Test
     void testUpdateTransaction() throws Exception {
         TransactionRequestDTO transactionRequest = new TransactionRequestDTO(5000, "shopping");
@@ -91,6 +95,7 @@ public class TransactionControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @DirtiesContext
     @Test
     void testGetTransactionsByType() throws Exception {
         TransactionRequestDTO transactionRequest = new TransactionRequestDTO(5000, "flying");
