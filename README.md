@@ -19,7 +19,7 @@ cd Challenge
 
 ### 2. Armar la Imagen de Docker
 ```bash
-mvn clean package
+mvn clean install
 docker build -t transaction-service .
 ```
 
