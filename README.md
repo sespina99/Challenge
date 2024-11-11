@@ -192,6 +192,9 @@ Se decidió por cambiar algunas cosas con respecto al enunciado del challenge. P
 especificaba que con el PUT se generaban nuevas transacciones pero debido a que esto no sigue el paradigma RESTful 
 en su totalidad se optó por generar las transacciones con el POST y que el PUT sea solo para modificar transacciones 
 previamente creadas.
+Tabién en los ejemplos de uno del challenge se veía como se envíaba el {"status":"ok"} en el body de la respuesta 
+del PUT. Esto se cambió para que el status llegue con el código 200 de HTML OK y que el body del response se 
+utilize para mostrar a la Transferencia modificada con el put. Lo mismo se hace con el POST.
 
 Cabe aclarar que se implemento la aplicación respetando los principios SOLID y con TDD. Los tests se pueden correr 
 al estar en la carpeta de challenge ejecutando:
