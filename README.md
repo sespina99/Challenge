@@ -28,7 +28,7 @@ docker build -t transaction-service .
 docker run -p 8080:8080 transaction-service
 ```
 
-### 4. Acceder a la aplicación
+### 4. Acceder a la Aplicación
 ```bash
 docker run -p 8080:8080 transaction-service
 ```
