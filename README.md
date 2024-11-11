@@ -6,7 +6,7 @@ Este proyecto es una API RESTful hecha con Spring Boot para administrar transacc
 Expone endpoints para almacenar y actualizar transacciones.
 También expone endpoints para obtener todas las transacciones de cierto tipo y para ver el gasto total de una 
 transacción y de sus hijos.
-La aplicación se encuentra Dockerizada
+La aplicación se encuentra Dockerizada.
 
 ## Instalación y Setup
 
